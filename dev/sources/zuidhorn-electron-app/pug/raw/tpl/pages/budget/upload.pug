@@ -1,0 +1,35 @@
+.section.section-container: .wrapper 
+    .section.section-title Import .CSV file
+    .section.section-panel
+        .csv-import
+            .csv-import-icon
+                .csv-import-icon-progress#progress
+                img(src="./assets/img/icon-csv.svg").csv-import-icon-icon
+    
+            div(ng-show="$ctrl.csvParser.progress == 1 || $ctrl.csvParser.progress == 2")
+                .csv-import-status Select .csv file to upload
+                .csv-import-progress &nbsp;
+                div(ng-show="$ctrl.csvParser.progress == 1").csv-import-actions.text-center
+                    a(href="#" ng-click="$ctrl.csvParser.selectFile($event)").button.button-success 
+                        em.mdi.mdi-file-outline
+                        | Select .csv file
+                div(ng-show="$ctrl.csvParser.progress == 2").csv-import-actions.text-center
+                    a(href="#" ng-click="$ctrl.csvParser.uploadToServer($event)").button.button-primary 
+                        em.mdi.mdi-upload
+                        | Uplaod to server
+            
+            div(ng-show="$ctrl.csvParser.progress == 3")
+                .csv-import-status Uploading...
+                div(ng-bind="($ctrl.csvParser.progressBar | number_format:2) + '%'").csv-import-progress 
+                em.button.button-default.disabled 
+                    | Uploading...
+
+            div(ng-show="$ctrl.csvParser.progress == 4")
+                .csv-import-status Completed
+                div(ng-bind="($ctrl.csvParser.progressBar | number_format:2) + '%'").csv-import-progress 
+                .csv-import-actions.text-center
+                    a(href="#" ng-click="$ctrl.csvParser.saveFromServer($event)").button.button-success 
+                        em.mdi.mdi-download
+                        | Download voucher codes.
+    
+    div(uploaded-vouchers)

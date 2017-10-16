@@ -1,0 +1,27 @@
+{
+  "name": "kindpakket-desktop-app",
+  "version": "0.0.1",
+  "description": "Zuidhorn lorem ipsum.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dev@rminds.nl",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "open": "0.0.5"
+  },
+  "devDependencies": {
+    "electron": "1.7.8",
+    "electron-prebuilt-compile": "1.7.8"
+  },
+  "build": {
+    "appId": "io.forus.zuidhorn",
+    "appImage": {
+      "category": "Utility",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum ratione iste eligendi adipisci dolore, impedit, dicta, at earum quod sed necessitatibus ea excepturi laboriosam dolorum sapiente officia corrupti odio autem dolor error!",
+      "systemIntegration": "doNotAsk"
+    }
+  }
+}

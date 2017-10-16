@@ -1,0 +1,12 @@
+extends layout/layout
+block content
+    .section(ng-show="$root.$state.current.data.layout != 'auth'").section-header: .wrapper
+        .section-header-inner
+            a.logo: img(src="./assets/img/logo.png", alt="")
+                
+            .section-header-actions
+                a(ui-sref="sign-out").button.button-primary
+                    em.mdi.mdi-logout
+                    | Logout
+
+    div(ui-view)

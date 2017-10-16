@@ -1,0 +1,35 @@
+.section.section-container: .wrapper 
+    .section.section-title KindPakket
+    .section.section-panel.section-panel-devieded: .row
+        .col.col-6
+            form(ng-submit="$ctrl.submitBudgetForm($event, $ctrl.forms.budget)").form
+                .row: .col.col-12: .form-heading Budget settings
+                .row
+                    .col.col-6: .form-group
+                        label.label Budget name
+                        input(type="text" placeholder="Budget name" ng-model="$ctrl.forms.budget.values.name").form-control
+                        p(ng-repeat="error in $ctrl.forms.budget.errors.name track by $index" ng-bind="error").text-danger
+                    .col.col-6: .form-group
+                        label.label Amount per child
+                        input(type="number" placeholder="Amount per child" ng-model="$ctrl.forms.budget.values.amount_per_child").form-control
+                        p(ng-repeat="error in $ctrl.forms.budget.errors.amount_per_child track by $index" ng-bind="error").text-danger
+                .row: .col.col-12
+                    button(type="submit")#submit.hidden
+                    label(for="submit").button.button-success Submit
+                    label(ng-show="$ctrl.forms.budget.success").button.button-text.disabled 
+                        em.mdi.mdi-check
+                        | Updated
+        .col.col-6
+            .col.col-12(ng-if="$ctrl.fundsInfo.diff >= 0")
+                .info-card.info-card-success(style="max-width: 320px;") 
+                    .info-card-header €{{ $ctrl.fundsInfo.funds | number_format:2 }} 
+                    .info-card-description 
+                        strong Congratulations. 
+                        | The budget is enough for funding the vouchers.
+            .col.col-12(ng-if="$ctrl.fundsInfo.diff < 0")
+                .info-card.info-card-danger(style="max-width: 320px;")
+                    .info-card-header €{{ $ctrl.fundsInfo.funds | number_format:2 }} 
+                    .info-card-description 
+                        strong Not enough. 
+                        | Please supply the bank account with 
+                        strong €{{ $ctrl.fundsInfo.diff | abs | number_format:2 }}

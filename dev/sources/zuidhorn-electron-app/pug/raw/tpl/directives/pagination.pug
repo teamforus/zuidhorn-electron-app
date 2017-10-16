@@ -1,0 +1,4 @@
+.pagination(ng-hide="paginator.lastPage() == 0")
+    a(href="#" ng-click="paginator.goFirst($event)" ng-class="{ disabled : paginator.curPage() == 0}").pagination-it: em.mdi.mdi-chevron-left
+    a(href="#" ng-bind="page.pageNth()" ng-click="page.onClick($event)" ng-class="{ disabled : !page.isActive()}" ng-repeat="page in paginator.pages track by $index").pagination-it
+    a(href="#" ng-click="paginator.goLast($event)" ng-class="{ disabled : paginator.curPage() == paginator.lastPage()}").pagination-it: em.mdi.mdi-chevron-right

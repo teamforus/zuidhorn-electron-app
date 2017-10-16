@@ -1,0 +1,10 @@
+doctype
+-env_data = env_data || {html5Mode: {enable: false, basePath: "/"}, apiUrl: "/"};
+html(lang="en" ng-app="municipalityApp" ng-controller="BaseController")
+    include includes/head
+    body(ng-cloak)
+        include includes/header
+        block content
+        include includes/popups
+        include includes/footer
+        include includes/scripts

@@ -1,0 +1,19 @@
+{
+    "server": {
+        "enabled": true,
+        "platform": ["zuidhorn-electron-app"],
+        "watch_platforms": "all"
+    },
+    "platforms": {
+        "enabled": ["zuidhorn-electron-app"]
+    },
+    "platforms_data": {
+        "zuidhorn-electron-app": {
+            "html5Mode": {
+                "enable": false,
+                "basePath": "/"
+            },
+            "apiUrl": "http://mvp.forus.io/municipality/api"
+        }
+    }
+}

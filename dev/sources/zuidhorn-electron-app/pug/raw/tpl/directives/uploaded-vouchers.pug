@@ -1,0 +1,17 @@
+div(ng-show="csv_content.show")
+    .section.section-title Vouchers
+    .section.section-panel
+        | {{ csv_content.data.rows2.inputData((csv_content.data.rows | filter:{"0": 223796236})).flow() }}
+        .table-responsive: table.table.table-stripped
+            thead: tr
+                th(ng-repeat="header in csv_content.data.headers" ng-bind="header")
+            tbody: tr(ng-repeat="row in csv_content.data.rows2.flow()")
+                td: strong.text-primary.mono {{ '#' + row[0] }}
+                td {{ row[1] }}
+                td.mono {{ row[2] }}
+                td.mono {{ row[3] }}
+        div(pagination paginator="csv_content.data.rows2.paginator").pull-left
+        .pagination
+            a(href="#" ng-click="saveFromServer($event)").button.button-primary.pull-right 
+                em.mdi.mdi-download
+                | Download

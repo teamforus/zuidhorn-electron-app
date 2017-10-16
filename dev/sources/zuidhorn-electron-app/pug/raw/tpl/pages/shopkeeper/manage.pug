@@ -1,0 +1,107 @@
+.section.section-container: .wrapper 
+    .section.section-panel
+        form(ng-submit="$ctrl.submitFilters($event, $ctrl.forms.filters)").form
+            .row: .col.col-12: .form-heading Filter by
+            .row
+                .col.col-3: .form-group
+                    label.label Status
+                    select(ng-options="state.name for state in $ctrl.states track by state.value" ng-model="$ctrl.forms.filters.values.state").form-control
+                .col.col-3: .form-group
+                    label.label Name
+                    input(type="text" placeholder="Name" ng-model="$ctrl.forms.filters.values.name").form-control
+                .col.col-3: .form-group
+                    label.label Category
+                    select(ng-options="category.name for category in $ctrl.categories track by category.id" ng-model="$ctrl.forms.filters.values.category").form-control
+                .col.col-3: .form-group
+                    label.label Kvk Number
+                    input(type="number" placeholder="Kvk Number" ng-model="$ctrl.forms.filters.values.kvk_number").form-control
+            .row: .col.col-12
+                button(type="submit")#submit.hidden
+                label(for="submit").button.button-success Filter
+                label(ng-show="$ctrl.forms.filters.success").button.button-text.disabled 
+                    em.mdi.mdi-check
+                    | Filtered
+    
+    .section.section-title Stores
+    
+    .section.section-panel(ng-repeat="shopkeeper in $ctrl.shopkeepers | filter:$ctrl.active_filters")
+        .business-li-wrapper(ng-click="shopkeeper.show_offices = !shopkeeper.show_offices"): .business-li
+            .business-li-logo: img(ng-src="{{ shopkeeper.preview || './assets/img/no-image-square.png' }}")
+            .business-title
+                .business-title-name Rocket Minds
+                .business-title-actions
+                    .button.button-primary(ng-show="shopkeeper.state == 'pending'").disabled
+                        em.mdi.mdi-close-circle
+                        | Pending
+                    .button.button-danger(ng-show="shopkeeper.state == 'declined'").disabled
+                        em.mdi.mdi-close-circle
+                        | Declined
+                    .button.button-success.disabled(ng-show="shopkeeper.state == 'approved'").disabled
+                        em.mdi.mdi-check-circle
+                        | Approved
+                        
+                    a(ng-click="$ctrl.showStatusSelect($event, shopkeeper)" ng-class="{active: shopkeeper.show_status_menu}").business-title-actions-help
+                        | Change status
+                        .button-menu
+                            .button-menu-backdrop(ng-click="$ctrl.showStatusSelect($event, shopkeeper)")
+                            .button-menu-item(ng-click="$ctrl.changeStatus($event, shopkeeper, 'pending')")
+                                em.mdi.mdi-close-circle.text-primary
+                                | Pending
+                            .button-menu-item(ng-click="$ctrl.changeStatus($event, shopkeeper, 'approved')")
+                                em.mdi.mdi-check-circle.text-success
+                                | Approved
+                            .button-menu-item(ng-click="$ctrl.changeStatus($event, shopkeeper, 'declined')")
+                                em.mdi.mdi-close-circle.text-danger
+                                | Declined
+            .business-details
+                span
+                    strong Kvk: 
+                    | {{ shopkeeper.kvk_number }} 
+                    span &nbsp;|&nbsp; 
+                span
+                    strong BTW: 
+                    span(ng-class="{'text-muted' : !shopkeeper.btw_number}") 
+                        | {{ shopkeeper.btw_number || 'Geen data' }}
+                    span &nbsp;|&nbsp; 
+                span
+                    strong IBAN:  
+                    | {{ shopkeeper.iban }} 
+                br
+                span
+                    strong Categories: 
+                    span(ng-repeat="category in shopkeeper.categories track by $index")
+                        | {{ category.name }}{{ $index < shopkeeper.categories.length - 1 ? ', ' : '' }}
+                br
+                span
+                    strong Email: 
+                    span.text-primary {{ shopkeeper.user.email }} 
+
+            .form(ng-show="shopkeeper.show_offices"): .row: .col.col-12 
+                .form-heading(style="margin: 40px 0 0;") Shop offices
+        .office-ul(ng-show="shopkeeper.show_offices")
+            .office-li(ng-repeat="office in shopkeeper.offices"): .office-li-inner
+                img(ng-src="{{ office.preview || './assets/img/no-image.jpg' }}").office-li-thumb
+                .office-li-name(ng-bind="office.address")
+                .office-li-description
+                    strong Phone: 
+                    span(ng-class="{'text-primary' : office.phone, 'text-muted' : !office.phone}") 
+                        | {{ office.phone || 'Geen data' }}
+                    br
+                    strong Email: 
+                    span(ng-class="{'text-primary' : office.email, 'text-muted' : !office.email}") 
+                        | {{ office.email || 'Geen data' }}
+                    br
+                    br
+                    strong.text-primary Opening times:
+                    br
+                    span.br(ng-repeat="schedule in office.schedules track by $index")
+                        strong {{ ['MO', 'TU', 'WE', 'TH', 'FR'][$index] }}: 
+                        | {{ schedule.start_time }}-{{ schedule.end_time }}{{ $index < office.schedules.length - 1 ? ',' : '' }} 
+                a(href="https://www.google.com/maps/place/{{office.lat}},{{office.lon}}" target="_blank").office-li-map-link
+                    em.mdi.mdi-map-marker
+                    | View on map
+    
+    div(ng-if="$ctrl.shopkeepers.length > 0")
+        p.text-muted(ng-show="($ctrl.shopkeepers | filter:$ctrl.active_filters).length < 1") Nothing fund by criteria.
+    div(ng-if="$ctrl.shopkeepers && ($ctrl.shopkeepers.length == 0)")
+        p.text-muted Nothing find by criteria.
