@@ -6,32 +6,35 @@ municipalityApp.service('DataStorageService', [
         ApiRequest
     ) {
         return new(function() {
-            var storage = {};
-
+            var storage = localStorage;
+            
+            if (typeof require != 'undefined')
+                storage = dataStorage;
+            
             this.hasItem = function(key) {
-                return localStorage.getItem(key) != null;
+                return storage.getItem(key) != null;
                 
                 return this;
             };
 
             this.writeItem = function(key, value) {
-                localStorage.setItem(key, value);
+                storage.setItem(key, value);
                 
                 return this;
             };
 
             this.readItem = function(key) {
-                return localStorage.getItem(key);
+                return storage.getItem(key);
             };
 
             this.deleteItem = function(key) {
-                localStorage.removeItem(key);
+                storage.removeItem(key);
                 
                 return this;
             };
 
             this.clearAll = function() {
-                localStorage.clear();
+                storage.clear();
                 
                 return this;
             };

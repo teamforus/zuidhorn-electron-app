@@ -74,3 +74,9 @@ municipalityApp.filter('abs', function() {
         return Math.abs(_in);
     }
 });
+
+municipalityApp.filter('object_values', function() {
+    return function(_in) {
+        return Object.values(_in);
+    }
+});

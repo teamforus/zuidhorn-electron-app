@@ -19,6 +19,12 @@ municipalityApp.service('BudgetService', [
 
                 return ApiRequest.post('/budget', values);
             };
+
+            this.checkStates = function(codes) {
+                return ApiRequest.post('/budget/voucher-state', {
+                    codes: codes
+                });
+            }
         });
     }
 ]);

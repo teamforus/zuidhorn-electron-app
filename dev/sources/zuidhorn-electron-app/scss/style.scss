@@ -466,6 +466,18 @@ table.table {
             font: 600 13px/24px $bf;
             border-bottom: 1px solid #e7eaed;
             padding: 15px 20px;
+
+            .mdi {
+                cursor: pointer;
+                font-size: 20px;
+                transition: .4s;
+                float: left;
+                margin-right: 5px;
+
+                &:hover {
+                    color: #df3f37 !important;
+                }
+            }
         }
 
         td {
@@ -818,6 +830,7 @@ table.table {
                     transition: .4s;
                     position: relative;
                     z-index: 1;
+                    background-color: #fff;
 
                     .mdi {
                         margin-left: -20px;
@@ -869,6 +882,16 @@ table.table {
         strong {
             font: inherit;
             font-weight: 700;
+        }
+    }
+
+    .business-errors {
+        display: inline-block;
+        padding: 5px 0 0;
+
+        .text-danger {
+            font: 400 13px/20px $bf;
+            margin: 0;
         }
     }
 }

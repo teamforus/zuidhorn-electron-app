@@ -3,6 +3,7 @@ municipalityApp.directive('uploadedVouchers', [
     '$filter',
     '$timeout',
     'AuthService',
+    'BudgetService',
     'PaginatorService',
     'CredentialsService',
     'DataStorageService',
@@ -11,6 +12,7 @@ municipalityApp.directive('uploadedVouchers', [
         $filter,
         $timeout,
         AuthService,
+        BudgetService,
         PaginatorService,
         CredentialsService,
         DataStorageService
@@ -21,14 +23,16 @@ municipalityApp.directive('uploadedVouchers', [
             replace: true,
             transclude: true,
             link: function($scope, iElm, iAttrs, controller) {
-                $scope.csv_content = {
-                    show: false
-                };
+                $scope.activated = [];
 
                 var init = function() {
+                    $scope.csv_content = {
+                        show: false
+                    };
 
                     if (!DataStorageService.hasItem('uploaded_budget'))
                         return;
+
 
                     var data = JSON.parse(DataStorageService.readItem('uploaded_budget'));
                     var rows = JSON.parse(JSON.stringify(data.rows.map(function(item, key) {
@@ -50,6 +54,20 @@ municipalityApp.directive('uploadedVouchers', [
                         rows2: PaginatorService.make(rows, 10),
                     }
 
+                    $scope.updateActivationList = function(e) {
+                        e && (e.preventDefault() & e.stopPropagation());
+
+                        var codes = [];
+
+                        rows.forEach(function(row) {
+                            codes.push(row[2]);
+                        });
+
+                        BudgetService.checkStates(codes).then(function(response) {
+                            $scope.activated = response.data;
+                        }, console.log);
+                    }
+
                     $scope.saveFromServer = function(e) {
                         e && (e.preventDefault() & e.stopPropagation());
 
@@ -64,7 +82,21 @@ municipalityApp.directive('uploadedVouchers', [
                         saveAs(blob, file_name);
                     };
 
+                    $scope.deleteLocalData = function(e) {
+                        e && (e.preventDefault() & e.stopPropagation());
+
+                        var confirmed = confirm(
+                            "Are you sure? This action cannot be undone.");
+
+                        if (confirmed) {
+                            DataStorageService.deleteItem('uploaded_budget');
+                            init();
+                        }
+                    };
+
                     $scope.csv_content.show = true;
+
+                    $scope.updateActivationList();
                 }
 
                 $scope.$on('budget:uploaded', init);

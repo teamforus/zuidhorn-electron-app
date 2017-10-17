@@ -8,6 +8,15 @@ var BrowserWindow = electron.BrowserWindow;
 
 var win;
 
+/* require('electron-context-menu')({
+    prepend: (params, browserWindow) => [{
+        label: 'Debug',
+        showInspectElement: true,
+        // Only show it when right-clicking images 
+        // visible: params.mediaType === 'image'
+    }]
+}); */
+
 app.commandLine.appendSwitch('--ignore-gpu-blacklist');
 
 app.on('ready', function() {
@@ -37,7 +46,7 @@ app.on('ready', function() {
         submenu: appMenu
     }));
 
-    win.setMenu(menu);
+    // win.setMenu(menu);
     win.loadURL('file://' + __dirname + '/www/index.html');
 
     win.once('ready-to-show', function() {

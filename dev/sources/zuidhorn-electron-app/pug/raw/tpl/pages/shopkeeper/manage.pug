@@ -24,11 +24,11 @@
     
     .section.section-title Stores
     
-    .section.section-panel(ng-repeat="shopkeeper in $ctrl.shopkeepers | filter:$ctrl.active_filters")
+    .section.section-panel(ng-repeat="shopkeeper in $ctrl.shopkeepers | object_values | filter:$ctrl.active_filters")
         .business-li-wrapper(ng-click="shopkeeper.show_offices = !shopkeeper.show_offices"): .business-li
             .business-li-logo: img(ng-src="{{ shopkeeper.preview || './assets/img/no-image-square.png' }}")
             .business-title
-                .business-title-name Rocket Minds
+                .business-title-name(ng-bind="shopkeeper.name")
                 .business-title-actions
                     .button.button-primary(ng-show="shopkeeper.state == 'pending'").disabled
                         em.mdi.mdi-close-circle
@@ -75,6 +75,8 @@
                 span
                     strong Email: 
                     span.text-primary {{ shopkeeper.user.email }} 
+            .business-errors(ng-show="shopkeeper.errors")
+                p(ng-repeat="error in shopkeeper.errors" ng-bind="error").text-danger
 
             .form(ng-show="shopkeeper.show_offices"): .row: .col.col-12 
                 .form-heading(style="margin: 40px 0 0;") Shop offices

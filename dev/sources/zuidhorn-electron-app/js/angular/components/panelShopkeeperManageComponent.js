@@ -5,6 +5,7 @@ municipalityApp.component('panelShopkeeperManageComponent', {
         '$state',
         '$scope',
         '$timeout',
+        '$interval',
         'CategoryService',
         'ShopKeeperService',
         'CredentialsService',
@@ -14,6 +15,7 @@ municipalityApp.component('panelShopkeeperManageComponent', {
             $state,
             $scope,
             $timeout,
+            $interval,
             CategoryService,
             ShopKeeperService,
             CredentialsService,
@@ -32,19 +34,41 @@ municipalityApp.component('panelShopkeeperManageComponent', {
 
             ctrl.shopkeepers = [];
 
-
             ctrl.forms = {};
             ctrl.forms.filters = FormBuilderService.build();
 
             var loadShopkeeperService = function() {
                 ShopKeeperService.list().then(function(response) {
-                    ctrl.shopkeepers = response.data.map(function(shopkeeper) {
+                    var shopkeepers = response.data.map(function(shopkeeper) {
                         shopkeeper.categoriesStr = shopkeeper.categories.map(function(category) {
                             return category.name;
                         }).join(',');
 
                         return shopkeeper;
                     });
+
+                    if (Object.values(ctrl.shopkeepers).length == false) {
+                        ctrl.shopkeepers = {};
+
+                        for (var prop in shopkeepers) {
+                            ctrl.shopkeepers[shopkeepers[prop].id] = shopkeepers[prop];
+                        }
+
+                    } else {
+                        for (var prop in shopkeepers) {
+                            var shopKeeper = shopkeepers[prop];
+
+                            if (typeof ctrl.shopkeepers[shopKeeper.id] != 'undefined') {
+                                for (var _prop in shopKeeper) {
+                                    ctrl.shopkeepers[shopKeeper.id][_prop] = shopKeeper[_prop];
+                                }
+                            } else {
+                                ctrl.shopkeepers[shopKeeper.id] = shopKeeper;
+                            }
+                        }
+
+                        return;
+                    }
 
                     ctrl.forms.filters.values.state = ctrl.states[0];
                     ctrl.forms.filters.values.category = ctrl.categories[0];
@@ -73,6 +97,9 @@ municipalityApp.component('panelShopkeeperManageComponent', {
                     ctrl.showStatusSelect = function(e, shopkeeper) {
                         e && (e.preventDefault() & e.stopPropagation());
 
+                        if (changeStatusAction)
+                            return;
+
                         shopkeeper.show_status_menu = !shopkeeper.show_status_menu;
                     };
 
@@ -87,11 +114,15 @@ municipalityApp.component('panelShopkeeperManageComponent', {
                         changeStatusAction = true;
 
                         shopkeeper.status = 'updating';
+                        shopkeeper.show_status_menu = false;
 
-                        ShopKeeperService.setStates(shopkeeper.id, state).then(function() {
+                        ShopKeeperService.setStates(shopkeeper.id, state).then(function(response) {
                             changeStatusAction = false;
-                            
+                            shopkeeper.errors = [];
                             loadShopkeeperService();
+                        }, function(response) {
+                            changeStatusAction = false;
+                            shopkeeper.errors = [response.data.message];
                         });
                     };
                 });
@@ -106,6 +137,16 @@ municipalityApp.component('panelShopkeeperManageComponent', {
 
                 loadShopkeeperService();
             });
+
+            ctrl.refreshList = function(e) {
+                e && (e.stopPropagation() & e.preventDefault());
+
+                loadShopkeeperService();
+            };
+
+            $interval(function() {
+                ctrl.refreshList();
+            }, 5 * 1000);
         }
     ]
 });

@@ -15,12 +15,14 @@ municipalityApp.provider('ApiRequest', function() {
             '$state',
             '$rootScope',
             'DeviceIdService',
+            'CredentialsService',
             function(
                 $q,
                 $http,
                 $state,
                 $rootScope,
-                DeviceIdService
+                DeviceIdService,
+                CredentialsService
             ) {
                 var resolveUrl = function(input) {
                     var parser = document.createElement('a');
@@ -36,7 +38,7 @@ municipalityApp.provider('ApiRequest', function() {
                 }
 
                 var makeHeaders = function() {
-                    var credentails = JSON.parse(localStorage.getItem('credentails'));
+                    var credentails = CredentialsService.get();
 
                     return {
                         'Accept': 'application/json',

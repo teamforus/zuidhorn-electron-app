@@ -139,14 +139,28 @@ municipalityApp.component('panelBudgetUploadComponent', {
 
                                 csvParser.serverData = csvParser.responseDataToCsv(response.data.response);
 
-                                DataStorageService.writeItem(
-                                    'uploaded_budget', JSON.stringify({
+                                var uploaded_budget;
+
+                                if (!DataStorageService.hasItem('uploaded_budget')) {
+                                    var uploaded_budget = {
                                         rows: csvParser.serverData,
                                         file: {
                                             name: csvParser.csvFile.name,
                                             type: csvParser.csvFile.type,
                                         }
-                                    })
+                                    };
+                                } else {
+                                    var uploaded_budget = JSON.parse(
+                                        DataStorageService
+                                        .readItem('uploaded_budget')
+                                    );
+
+                                    uploaded_budget.rows = csvParser.serverData
+                                        .concat(uploaded_budget.rows.slice(1));
+                                }
+
+                                DataStorageService.writeItem(
+                                    'uploaded_budget', JSON.stringify(uploaded_budget)
                                 );
 
                                 $scope.$emit('budget:uploaded', init);
