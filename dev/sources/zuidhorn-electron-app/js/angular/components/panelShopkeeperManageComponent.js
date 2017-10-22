@@ -144,9 +144,15 @@ municipalityApp.component('panelShopkeeperManageComponent', {
                 loadShopkeeperService();
             };
 
-            $interval(function() {
+            var interval = $interval(function() {
                 ctrl.refreshList();
             }, 5 * 1000);
+            
+            $scope.$on("$destroy", function() {
+                if ($interval) {
+                    $interval.cancel(interval);
+                }
+            });
         }
     ]
 });

@@ -28,6 +28,7 @@ municipalityApp.component('panelBudgetUploadComponent', {
             var ctrl = this;
             var circle = false;
             var csvParser = false;
+            var input;
 
             var makeCircle = function() {
                 return new ProgressBar.Circle($('#progress')[0], {
@@ -67,10 +68,11 @@ municipalityApp.component('panelBudgetUploadComponent', {
             var bind = function() {
                 csvParser.selectFile = function(e) {
                     e && (e.preventDefault() & e.stopPropagation());
+                    
+                    input = document.createElement('input');
+                    input.setAttribute("type", "file");
 
-                    var input = $('<input type="file" accept=".csv"/>');
-
-                    input.bind('change', function(e) {
+                    input.addEventListener('change', function(e) {
                         var target_file = this.files[0];
 
                         new $q(function(resolve, reject) {
@@ -103,7 +105,9 @@ municipalityApp.component('panelBudgetUploadComponent', {
                             csvParser.csvFile = target_file;
                             csvParser.progress = 2;
                         }, console.log);
-                    }).click();
+                    });
+
+                    input.click();
                 };
 
                 csvParser.uploadToServer = function(e) {

@@ -46,7 +46,7 @@ app.on('ready', function() {
         submenu: appMenu
     }));
 
-    // win.setMenu(menu);
+    win.setMenu(menu);
     win.loadURL('file://' + __dirname + '/www/index.html');
 
     win.once('ready-to-show', function() {
