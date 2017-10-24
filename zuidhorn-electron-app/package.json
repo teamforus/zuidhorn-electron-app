@@ -22,8 +22,8 @@
     "appId": "io.forus.zuidhorn",
     "appImage": {
       "category": "Utility",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum ratione iste eligendi adipisci dolore, impedit, dicta, at earum quod sed necessitatibus ea excepturi laboriosam dolorum sapiente officia corrupti odio autem dolor error!"
-    },
-    "systemIntegration": "doNotAsk"
+      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum ratione iste eligendi adipisci dolore, impedit, dicta, at earum quod sed necessitatibus ea excepturi laboriosam dolorum sapiente officia corrupti odio autem dolor error!",
+      "systemIntegration": "doNotAsk"
+    }
   }
 }
