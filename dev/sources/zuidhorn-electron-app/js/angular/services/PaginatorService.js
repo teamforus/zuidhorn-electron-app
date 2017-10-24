@@ -32,10 +32,11 @@ municipalityApp.service('PaginatorService', [
 
                     var makePage = function(page) {
                         return {
+                            page: page,
                             onClick: function(e) {
                                 e && (e.preventDefault() & e.stopPropagation());
                                 self.cur_page = (page - 1);
-                                pages = generatePages();
+                                self.paginator.pages = generatePages();
                             },
                             isActive: function() {
                                 return (page - 1) != self.cur_page;
