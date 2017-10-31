@@ -1,6 +1,6 @@
 ## Zuidhorn Electron app
 ### Updates
-#### 0.0.6
+#### 0.0.1 > 0.0.5
 Early version  
 
 #### 0.0.6
