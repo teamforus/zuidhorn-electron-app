@@ -1,28 +1,19 @@
-var app = require('electron').app;
-var open = require('open');
-var path = require('path');
-var electron = require('electron');
+let Electron = require('electron');
 
-var Tray = electron.Tray;
-var BrowserWindow = electron.BrowserWindow;
+let BrowserWindow = Electron.BrowserWindow;
+let Menu = Electron.Menu;
+let Tray = Electron.Tray;
+let App = Electron.app;
 
-var win;
+let open = require('open');
+let path = require('path')
 
-/* require('electron-context-menu')({
-    prepend: (params, browserWindow) => [{
-        label: 'Debug',
-        showInspectElement: true,
-        // Only show it when right-clicking images 
-        // visible: params.mediaType === 'image'
-    }]
-}); */
+App.commandLine.appendSwitch('--ignore-gpu-blacklist');
 
-app.commandLine.appendSwitch('--ignore-gpu-blacklist');
+App.on('ready', function() {
+    let appIcon = new Tray(path.join(__dirname, 'www/assets/img/favicon.png'));
 
-app.on('ready', function() {
-    const appIcon = new Tray(path.join(__dirname, 'www/assets/img/favicon.png'));
-
-    win = new BrowserWindow({
+    let win = new BrowserWindow({
         minWidth: 1024,
         minHeight: 650,
         show: false,
@@ -30,23 +21,50 @@ app.on('ready', function() {
         center: true,
         icon: path.join(__dirname, 'www/assets/img/favicon.png')
     });
-    
-    var menu = new electron.Menu();
-    var appMenu = new electron.Menu();
-    
-    appMenu.append(new electron.MenuItem({
-        click: function() {
-            app.quit();
-        },
-        label: 'Exit'
-    }))
-    
-    menu.append(new electron.MenuItem({
-        label: 'Application',
-        submenu: appMenu
-    }));
 
-    win.setMenu(menu);
+    Menu.setApplicationMenu(
+        Electron.Menu.buildFromTemplate([{
+            label: "Zuidhorn App",
+            submenu: [{
+                label: "Quit",
+                accelerator: "Command+Q",
+                click: function() {
+                    App.quit();
+                }
+            }]
+        }, {
+            label: "Edit",
+            submenu: [{
+                label: "Undo",
+                accelerator: "CmdOrCtrl+Z",
+                selector: "undo:"
+            }, {
+                label: "Redo",
+                accelerator: "Shift+CmdOrCtrl+Z",
+                selector: "redo:"
+            }, {
+                type: "separator"
+            }, {
+                label: "Cut",
+                accelerator: "CmdOrCtrl+X",
+                selector: "cut:"
+            }, {
+                label: "Copy",
+                accelerator: "CmdOrCtrl+C",
+                selector: "copy:"
+            }, {
+                label: "Paste",
+                accelerator: "CmdOrCtrl+V",
+                selector: "paste:"
+            }, {
+                label: "Select All",
+                accelerator: "CmdOrCtrl+A",
+                selector: "selectAll:"
+            }]
+        }])
+    );
+
+    win.setMenu(new Menu());
     win.loadURL('file://' + __dirname + '/www/index.html');
 
     win.once('ready-to-show', function() {
@@ -62,6 +80,6 @@ app.on('ready', function() {
     });
 
     win.on('closed', function() {
-        app.quit();
+        App.quit();
     });
 });

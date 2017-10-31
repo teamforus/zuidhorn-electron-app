@@ -15,19 +15,19 @@
                             label.label Password
                             input(type="password" placeholder="Password" ng-model="$ctrl.forms.sign_in.values.password").form-control
                             p(ng-repeat="error in $ctrl.forms.sign_in.errors.password track by $index" ng-bind="error").text-danger
-                    .row
-                        .col.col-6.text-left
-                            label(
-                                ng-click="$ctrl.forms.sign_in.values.remember = !$ctrl.forms.sign_in.values.remember" 
-                                ng-class="{checked: $ctrl.forms.sign_in.values.remember}").label.label-checkbox
-                                em.mdi.mdi-checkbox-blank-outline
-                                em.mdi.mdi-checkbox-marked-outline.checked
-                                | Keep me logged in
+                    //- .row
+                    //-     .col.col-6.text-left
+                    //-         label(
+                    //-             ng-click="$ctrl.forms.sign_in.values.remember = !$ctrl.forms.sign_in.values.remember" 
+                    //-             ng-class="{checked: $ctrl.forms.sign_in.values.remember}").label.label-checkbox
+                    //-             em.mdi.mdi-checkbox-blank-outline
+                    //-             em.mdi.mdi-checkbox-marked-outline.checked
+                    //-             | Keep me logged in
 
-                        .col.col-6: .form-group.text-right
-                            a(href="#" ui-sref="auth-reset").forget-password
-                                em.mdi.mdi-help-circle-outline
-                                | Forgot password
+                    //-     .col.col-6: .form-group.text-right
+                    //-         a(href="#" ui-sref="auth-reset").forget-password
+                    //-             em.mdi.mdi-help-circle-outline
+                    //-             | Forgot password
                     .row
                         br
                         .col.col-12: .form-group.text-center

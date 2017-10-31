@@ -11,7 +11,6 @@ municipalityApp.component('panelBudgetUploadComponent', {
         'CredentialsService',
         'DataStorageService',
         'ProgressFakerService',
-        'ChildEstimationService',
         function(
             $q,
             $element,
@@ -22,8 +21,7 @@ municipalityApp.component('panelBudgetUploadComponent', {
             DataUploadService,
             CredentialsService,
             DataStorageService,
-            ProgressFakerService,
-            ChildEstimationService
+            ProgressFakerService
         ) {
             var ctrl = this;
             var circle = false;
@@ -68,7 +66,7 @@ municipalityApp.component('panelBudgetUploadComponent', {
             var bind = function() {
                 csvParser.selectFile = function(e) {
                     e && (e.preventDefault() & e.stopPropagation());
-                    
+
                     input = document.createElement('input');
                     input.setAttribute("type", "file");
 
@@ -82,22 +80,30 @@ municipalityApp.component('panelBudgetUploadComponent', {
                         }).then(function(results) {
                             var header = results.data[0];
 
-                            var budgetPos = header.indexOf('BETAALD CRED');
-                            var bsnPos = header.indexOf('NR. PERS');
+                            var kidsPos = header.indexOf('KINDEREN');
+                            var bsnPos = header.indexOf('NR PERS');
+                            var codePost = header.indexOf('CODE');
+
+                            if (codePost !== -1)
+                                return alert(
+                                    "You are trying to upload .csv file " +
+                                    "which already contain voucher " +
+                                    "activation code. To import this " +
+                                    "file please use button below.");
+
+                            if (kidsPos == -1 || bsnPos == -1)
+                                return alert(
+                                    "'KINDEREN' and 'NR PERS' headers " + 
+                                    "required!");
 
                             var data = results.data.slice(1);
 
                             csvParser.data = {};
 
                             data.forEach(function(row, key) {
-                                var count_childs = ChildEstimationService
-                                    .estimateChildsByBudget(
-                                        parseFloat(row[budgetPos])
-                                    )[0].toString();
-
                                 csvParser.data[key] = {
                                     id: key,
-                                    count_childs: count_childs,
+                                    count_childs: row[kidsPos],
                                     nr_pers: row[bsnPos]
                                 };
                             });
@@ -176,7 +182,7 @@ municipalityApp.component('panelBudgetUploadComponent', {
                 csvParser.responseDataToCsv = function(data) {
                     var csvContent = [];
 
-                    csvContent[0] = ['NR PERS', 'COUNT CHILDS', 'CODE'];
+                    csvContent[0] = ['NR PERS', 'KINDEREN', 'CODE'];
 
                     for (var prop in data) {
                         var id = parseInt(prop);

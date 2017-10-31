@@ -1,4 +1,5 @@
 municipalityApp.directive('uploadedVouchers', [
+    '$q',
     '$state',
     '$filter',
     '$timeout',
@@ -8,6 +9,7 @@ municipalityApp.directive('uploadedVouchers', [
     'CredentialsService',
     'DataStorageService',
     function(
+        $q,
         $state,
         $filter,
         $timeout,
@@ -30,9 +32,72 @@ municipalityApp.directive('uploadedVouchers', [
                         show: false
                     };
 
+                    $scope.importList = function(e) {
+                        e && (e.preventDefault() & e.stopPropagation());
+
+                        input = document.createElement('input');
+                        input.setAttribute("type", "file");
+
+                        input.addEventListener('change', function(e) {
+                            var target_file = this.files[0];
+
+                            new $q(function(resolve, reject) {
+                                Papa.parse(target_file, {
+                                    complete: resolve
+                                });
+                            }).then(function(results) {
+                                var header = results.data[0];
+
+                                var bsnPos = header.indexOf('NR PERS');
+                                var kidsPos = header.indexOf('KINDEREN');
+                                var codePos = header.indexOf('CODE');
+
+                                // validate .csv file
+                                if (bsnPos != 0 || kidsPos != 1 || codePos != 2 || header.length != 3) {
+                                    return alert(
+                                        "'NR PERS', 'KINDEREN' and 'CODE' " + 
+                                        "headers required!");
+                                }
+
+                                if (!DataStorageService.hasItem('uploaded_budget')) {
+                                    var uploaded_budget = {
+                                        rows: results.data,
+                                        file: {
+                                            name: target_file.name,
+                                            type: target_file.type,
+                                        }
+                                    };
+                                console.log(DataStorageService.hasItem('uploaded_budget'));
+
+                                    console.log(uploaded_budget);
+                                } else {
+                                    var uploaded_budget = JSON.parse(
+                                        DataStorageService
+                                        .readItem('uploaded_budget')
+                                    );
+
+                                    console.log(DataStorageService
+                                        .readItem('uploaded_budget'));
+
+                                    uploaded_budget.rows = results.data.concat(
+                                        uploaded_budget.rows.slice(1));
+
+                                    console.log(bsnPos, kidsPos, codePos);
+                                }
+
+                                DataStorageService.writeItem(
+                                    'uploaded_budget', JSON.stringify(uploaded_budget)
+                                );
+
+                                init();
+                            }, console.log);
+                        });
+
+                        input.click();
+                    }
+
                     if (!DataStorageService.hasItem('uploaded_budget'))
                         return;
-
 
                     var data = JSON.parse(DataStorageService.readItem('uploaded_budget'));
                     var rows = JSON.parse(JSON.stringify(data.rows.map(function(item, key) {
@@ -68,7 +133,7 @@ municipalityApp.directive('uploadedVouchers', [
                         }, console.log);
                     }
 
-                    $scope.saveFromServer = function(e) {
+                    $scope.exportList = function(e) {
                         e && (e.preventDefault() & e.stopPropagation());
 
                         var file_name = file.name.replace('.csv', '') + '-final.csv';
@@ -100,6 +165,7 @@ municipalityApp.directive('uploadedVouchers', [
                 }
 
                 $scope.$on('budget:uploaded', init);
+
                 init();
             }
         };

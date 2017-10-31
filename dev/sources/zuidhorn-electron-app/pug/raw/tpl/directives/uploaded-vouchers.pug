@@ -1,23 +1,27 @@
-div(ng-show="csv_content.show")
+div
     .section.section-title Vouchers
     .section.section-panel
-        | {{ csv_content.data.rows2.inputData((csv_content.data.rows | filter:{"0": 223796236})).flow() }}
-        .table-responsive: table.table.table-stripped
-            thead: tr
-                th(ng-repeat="header in csv_content.data.headers" ng-bind="header")
-                th
-                    | ACTIVATED
-                    a(href="#" ng-click="updateActivationList($event)").mdi.mdi-refresh.text-primary
-            tbody: tr(ng-repeat="row in csv_content.data.rows2.flow()")
-                td: strong(ng-bind="row[0]").text-primary.mono
-                td(ng-bind="row[1]")
-                td(ng-bind="row[2]").mono
-                td(ng-class="{'text-primary': activated[row[2]]}" ng-bind="activated[row[2]] ? 'Yes' : 'No'")
-        div(pagination paginator="csv_content.data.rows2.paginator").pull-left
+        div(ng-show="csv_content.show")
+            | {{ csv_content.data.rows2.inputData((csv_content.data.rows | filter:{"0": 223796236})).flow() }}
+            .table-responsive: table.table.table-stripped
+                thead: tr
+                    th(ng-repeat="header in csv_content.data.headers" ng-bind="header")
+                    th
+                        | ACTIVATED
+                        a(href="#" ng-click="updateActivationList($event)").mdi.mdi-refresh.text-primary
+                tbody: tr(ng-repeat="row in csv_content.data.rows2.flow()")
+                    td: strong(ng-bind="row[0]").text-primary.mono
+                    td(ng-bind="row[1]")
+                    td(ng-bind="row[2]").mono
+                    td(ng-class="{'text-primary': activated[row[2]]}" ng-bind="activated[row[2]] ? 'Yes' : 'No'")
+            div(pagination paginator="csv_content.data.rows2.paginator").pull-left
         .pagination: .pull-right
-            a(href="#" ng-click="saveFromServer($event)").button.button-primary
+            a(href="#" ng-click="importList($event)").button.button-primary
+                em.mdi.mdi-upload
+                | Import
+            a(href="#" ng-click="exportList($event)" ng-show="csv_content.show").button.button-success
                 em.mdi.mdi-download
-                | Download
-            a(href="#" ng-click="deleteLocalData($event)").button.button-danger 
+                | Export
+            a(href="#" ng-click="deleteLocalData($event)" ng-show="csv_content.show").button.button-danger 
                 em.mdi.mdi-delete
                 | Delete
