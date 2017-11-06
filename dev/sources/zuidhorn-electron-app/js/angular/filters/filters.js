@@ -80,3 +80,11 @@ municipalityApp.filter('object_values', function() {
         return Object.values(_in);
     }
 });
+
+municipalityApp.filter('only_working_schedule', ['$filter', function($filter) {
+    return function(_in) {
+        return _in.filter(function(schedule) {
+            return schedule.start_time;
+        });
+    }
+}]);

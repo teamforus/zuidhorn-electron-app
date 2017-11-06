@@ -30,18 +30,24 @@
             .business-title
                 .business-title-name(ng-bind="shopkeeper.name")
                 .business-title-actions
-                    .button.button-primary(ng-show="shopkeeper.state == 'pending'").disabled
+                    .button.button-primary(
+                        ng-show="shopkeeper.state == 'pending'", 
+                        ng-click="$ctrl.showStatusSelect($event, shopkeeper)")
                         em.mdi.mdi-close-circle
                         | Pending
-                    .button.button-danger(ng-show="shopkeeper.state == 'declined'").disabled
+                    .button.button-danger(
+                        ng-show="shopkeeper.state == 'declined'", 
+                        ng-click="$ctrl.showStatusSelect($event, shopkeeper)")
                         em.mdi.mdi-close-circle
                         | Declined
-                    .button.button-success.disabled(ng-show="shopkeeper.state == 'approved'").disabled
+                    .button.button-success(
+                        ng-show="shopkeeper.state == 'approved'", 
+                        ng-click="$ctrl.showStatusSelect($event, shopkeeper)")
                         em.mdi.mdi-check-circle
                         | Approved
                         
                     a(ng-click="$ctrl.showStatusSelect($event, shopkeeper)" ng-class="{active: shopkeeper.show_status_menu}").business-title-actions-help
-                        | Change status
+                        
                         .button-menu
                             .button-menu-backdrop(ng-click="$ctrl.showStatusSelect($event, shopkeeper)")
                             .button-menu-item(ng-click="$ctrl.changeStatus($event, shopkeeper, 'pending')")
@@ -96,9 +102,9 @@
                     br
                     strong.text-primary Opening times:
                     br
-                    span.br(ng-repeat="schedule in office.schedules track by $index")
-                        strong {{ ['MO', 'TU', 'WE', 'TH', 'FR'][$index] }}: 
-                        | {{ schedule.start_time }}-{{ schedule.end_time }}{{ $index < office.schedules.length - 1 ? ',' : '' }} 
+                    span.br(ng-repeat="schedule in (office.schedules | only_working_schedule) track by $index")
+                        strong {{ ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'][$index] }}: 
+                        | {{ schedule.start_time }}-{{ schedule.end_time }}{{ $index < ((office.schedules | only_working_schedule)).length - 1 ? ',' : '' }} 
                 a(href="https://www.google.com/maps/place/{{office.lat}},{{office.lon}}" target="_blank").office-li-map-link
                     em.mdi.mdi-map-marker
                     | View on map
