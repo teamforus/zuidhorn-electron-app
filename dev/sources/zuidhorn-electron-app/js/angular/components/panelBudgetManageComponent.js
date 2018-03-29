@@ -61,8 +61,6 @@ municipalityApp.component('panelBudgetManageComponent', {
                     ctrl.fundsInfo.funds_required = response.data.funds_required;
                     ctrl.fundsInfo.diff =
                         ctrl.fundsInfo.funds - ctrl.fundsInfo.funds_required;
-
-                    console.log(ctrl.fundsInfo);
                 });
             };
 

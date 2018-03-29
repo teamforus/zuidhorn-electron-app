@@ -1,0 +1,57 @@
+div
+    .section.section-title Stores
+    
+    .section.section-panel(ng-repeat="shopkeeper in shopkeepers")
+        .business-li-wrapper(ng-click="shopkeeper.show_transactions = !shopkeeper.show_transactions"): .business-li
+            .business-li-logo: img(ng-src="{{ shopkeeper.preview || './assets/img/no-image-square.png' }}")
+            .business-title
+                .business-title-name(ng-bind="shopkeeper.name")
+                .earnings-badge
+                    .earnings-col
+                        .earnings-col-label Total Earnings
+                        .earnings-col-value € {{ (shopkeeper.earnings.total || 0) | number_format:2 }}
+                    .earnings-col
+                        .earnings-col-label Last month earnings
+                        .earnings-col-value € {{ (shopkeeper.earnings.last_month || 0) | number_format:2 }}
+                    .earnings-col
+                        .earnings-col-label Last week earnings
+                        .earnings-col-value € {{ (shopkeeper.earnings.last_week || 0) | number_format:2 }}
+            .business-details
+                span
+                    strong Kvk: 
+                    | {{ shopkeeper.kvk_number }} 
+                    span &nbsp;|&nbsp; 
+                span
+                    strong BTW: 
+                    span(ng-class="{'text-muted' : !shopkeeper.btw_number}") 
+                        | {{ shopkeeper.btw_number || 'Geen data' }}
+                    span &nbsp;|&nbsp; 
+                span
+                    strong IBAN:  
+                    | {{ shopkeeper.iban }} 
+                br
+                span
+                    strong Categories: 
+                    span(ng-repeat="category in shopkeeper.categories track by $index")
+                        | {{ category.name }}{{ $index < shopkeeper.categories.length - 1 ? ', ' : '' }}
+                br
+                span
+                    strong Email: 
+                    span.text-primary {{ shopkeeper.user.email }} 
+        
+        div(ng-show="shopkeeper.show_transactions")
+            .table-fill: table.table.table-stripped
+                tr
+                    th Amount
+                    th Date
+                    th Status
+                tr(ng-repeat="transaction in shopkeeper.transactions")
+                    td € {{ transaction.amount | number_format:2 }}
+                    td {{ transaction.created_at }}
+                    td {{ transaction.status }}
+            //- .pagination
+            //-     a(href="#").pagination-it.disabled: em.mdi.mdi-chevron-left
+            //-     a(href="#").pagination-it.active 1
+            //-     a(href="#").pagination-it 2
+            //-     a(href="#").pagination-it 3
+            //-     a(href="#").pagination-it: em.mdi.mdi-chevron-right

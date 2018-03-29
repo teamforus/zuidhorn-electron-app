@@ -1,0 +1,309 @@
+extends ../layout/layout_markup
+block content
+    .section.section-header: .wrapper
+        .section-header-inner
+            a.logo: img(src="./assets/img/logo.png", alt="")
+                
+            .section-header-actions
+                a(ui-sref="sign-out").button.button-primary
+                    em.mdi.mdi-logout
+                    | Logout
+
+    .section.section-container: .wrapper 
+        .section.section-panel
+            form.form
+                .row: .col.col-12: .form-heading Filter by
+                .row
+                    .col.col-3: .form-group
+                        label.label Status
+                        select.form-control
+                            option Option 1
+                            option Option 2
+                            option Option 3
+                    .col.col-3: .form-group
+                        label.label Name
+                        input(type="text" placeholder="Name").form-control
+                    .col.col-3: .form-group
+                        label.label Category
+                        select.form-control
+                            option Option 1
+                            option Option 2
+                            option Option 3
+                    .col.col-3: .form-group
+                        label.label Kvk Number
+                        input(type="number" placeholder="Kvk Number").form-control
+                .row: .col.col-12
+                    button(type="submit")#submit.hidden
+                    label(for="submit").button.button-success Filter
+                    label.button.button-text.disabled 
+                        em.mdi.mdi-check
+                        | Filtered
+        
+        .section.section-title Stores
+        
+        //- Shopkeeper offices
+        .section.section-panel
+            .business-li-wrapper: .business-li
+                .business-li-logo: img(src="./assets/img/no-image-square.png")
+                .business-title
+                    .business-title-name Shopkeeper name
+                    .business-title-actions
+                        .button.button-primary
+                            em.mdi.mdi-close-circle
+                            | Pending
+                        //- .button.button-danger
+                        //-     em.mdi.mdi-close-circle
+                        //-     | Declined
+                        //- .button.button-success
+                        //-     em.mdi.mdi-check-circle
+                        //-     | Approved
+                            
+                        a.business-title-actions-help.active
+                            .button-menu
+                                //- .button-menu-backdrop
+                                .button-menu-item
+                                    em.mdi.mdi-close-circle.text-primary
+                                    | Pending
+                                .button-menu-item
+                                    em.mdi.mdi-check-circle.text-success
+                                    | Approved
+                                .button-menu-item
+                                    em.mdi.mdi-close-circle.text-danger
+                                    | Declined
+                .business-details
+                    span
+                        strong Kvk: 
+                        | 43895793456836
+                        span &nbsp;|&nbsp; 
+                    span
+                        strong BTW: 
+                        span.text-muted Geen data
+                        span &nbsp;|&nbsp; 
+                    span
+                        strong IBAN:  
+                        | 324928342731EE
+                    br
+                    span
+                        strong Categories: 
+                        span Category 1
+                        span Category 2
+                        span Category 3
+                    br
+                    span
+                        strong Email: 
+                        span.text-primary info@forus.io
+                //- .business-errors
+                //-     p.text-danger Some error
+
+                .form: .row: .col.col-12 
+                    .form-heading(style="margin: 40px 0 0;") Shop offices
+            .office-ul
+                .office-li: .office-li-inner
+                    img(src="./assets/img/office-photo-sample.jpg").office-li-thumb
+                    .office-li-name The office address
+                    .office-li-description
+                        strong Phone: 
+                        span.text-primary 803742394293
+                        br
+                        strong Email: 
+                        span.text-muted Geen data
+                        br
+                        br
+                        strong.text-primary Opening times:
+                        br
+                        span.br
+                            strong Ma: 
+                            | 09:00-17:00, 
+                        span.br
+                            strong Di: 
+                            | 09:00-17:00, 
+                        span.br
+                            strong Wo: 
+                            | 09:00-17:00, 
+                        span.br
+                            strong Do: 
+                            | 09:00-17:00, 
+                        span.br
+                            strong Vr: 
+                            | 09:00-17:00
+                    a(href="https://www.google.com/maps/place/15,15" target="_blank").office-li-map-link
+                        em.mdi.mdi-map-marker
+                        | View on map
+        
+        .section.section-panel
+            .business-li-wrapper: .business-li
+                .business-li-logo: img(src="./assets/img/no-image-square.png")
+                .business-title
+                    .business-title-name Shopkeeper name
+                    .earnings-badge.earnings-badge-danger
+                        .earnings-col
+                            .earnings-col-label Total ammount
+                            .earnings-col-value € 20.000,-
+                .business-details
+                    span
+                        strong Kvk: 
+                        | 43895793456836
+                        span &nbsp;|&nbsp; 
+                    span
+                        strong BTW: 
+                        span.text-muted Geen data
+                        span &nbsp;|&nbsp; 
+                    span
+                        strong IBAN:  
+                        | 324928342731EE
+                    br
+                    span
+                        strong Categories: 
+                        span Category 1
+                        span Category 2
+                        span Category 3
+                    br
+                    span
+                        strong Email: 
+                        span.text-primary info@forus.io
+
+        //- Shopkeeper earnings
+        .section.section-panel
+            .business-li-wrapper: .business-li
+                .business-li-logo: img(src="./assets/img/no-image-square.png")
+                .business-title
+                    .business-title-name Shopkeeper name
+                    .earnings-badge
+                        .earnings-col
+                            .earnings-col-label Total Earnings
+                            .earnings-col-value € 20.000,-
+                        .earnings-col
+                            .earnings-col-label Last month earnings
+                            .earnings-col-value € 1.745,56
+                        .earnings-col
+                            .earnings-col-label Last week earnings
+                            .earnings-col-value € 645,34
+                .business-details
+                    span
+                        strong Kvk: 
+                        | 43895793456836
+                        span &nbsp;|&nbsp; 
+                    span
+                        strong BTW: 
+                        span.text-muted Geen data
+                        span &nbsp;|&nbsp; 
+                    span
+                        strong IBAN:  
+                        | 324928342731EE
+                    br
+                    span
+                        strong Categories: 
+                        span Category 1
+                        span Category 2
+                        span Category 3
+                    br
+                    span
+                        strong Email: 
+                        span.text-primary info@forus.io
+            .table-fill: table.table.table-stripped
+                tr
+                    th Amount
+                    th Date
+                    th Status
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+            .pagination
+                a(href="#").pagination-it.disabled: em.mdi.mdi-chevron-left
+                a(href="#").pagination-it.active 1
+                a(href="#").pagination-it 2
+                a(href="#").pagination-it 3
+                a(href="#").pagination-it: em.mdi.mdi-chevron-right
+        
+        //- Category closed
+        .section.section-panel
+            .category-li-wrapper: .category-li
+                .category-li-logo: img(src="./assets/img/office-photo-sample.jpg")
+                .category-title
+                    .category-title-name Computers
+                    .earnings-badge
+                        .earnings-col
+                            .earnings-col-label Total Earnings
+                            .earnings-col-value € 20.000,-
+                        .earnings-col
+                            .earnings-col-label Last month earnings
+                            .earnings-col-value € 1.745,56
+                        .earnings-col
+                            .earnings-col-label Last week earnings
+                            .earnings-col-value € 645,34
+                .category-details
+                    span Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt 
+                    br
+                    span Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+        
+        //- Category opened
+        .section.section-panel
+            .category-li-wrapper: .category-li
+                .category-li-logo: img(src="./assets/img/office-photo-sample.jpg")
+                .category-title
+                    .category-title-name Computers
+                    .earnings-badge
+                        .earnings-col
+                            .earnings-col-label Total Earnings
+                            .earnings-col-value € 20.000,-
+                        .earnings-col
+                            .earnings-col-label Last month earnings
+                            .earnings-col-value € 1.745,56
+                        .earnings-col
+                            .earnings-col-label Last week earnings
+                            .earnings-col-value € 645,34
+                .category-details
+                    span Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt 
+                    br
+                    span Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
+            .table-fill: table.table.table-stripped
+                tr
+                    th Amount
+                    th Date
+                    th Status
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+                tr
+                    td € 34,35
+                    td 02.12.2019
+                    td Confirmed
+            .pagination
+                a(href="#").pagination-it.disabled: em.mdi.mdi-chevron-left
+                a(href="#").pagination-it.active 1
+                a(href="#").pagination-it 2
+                a(href="#").pagination-it 3
+                a(href="#").pagination-it: em.mdi.mdi-chevron-right
+
+        div: p.text-muted Nothing fund by criteria.
+        div: p.text-muted No Shopkeepers yet.

@@ -1,0 +1,15 @@
+div
+    .section.section-financial-overview-tabs: .row
+        mixin tab_item(key, icon, text)
+            a(ng-click="active_tab = '" + key + "'").tab-item.col.col-6: .inner(ng-class="{active: active_tab == '" + key + "'}")
+                img(src="./assets/icons/icon-" + icon + ".png").tab-icon
+                | !{text}
+                .mdi.mdi-chevron-right.arrow
+
+        +tab_item('shopkeeper_earnings', 'shopkeeper-earnings', 'Shopkeeper<br>Earnings')
+        // +tab_item('category_earnings', 'category-earnings', 'Category<br>Earnings')
+        +tab_item('outstanding_debs', 'outstanding-debs', 'Outstanding<br>Debs')
+    
+    div(ng-if="active_tab == 'shopkeeper_earnings'" earnings-shopkeepers)
+    // div(ng-if="active_tab == 'category_earnings'" earnings-categories)
+    div(ng-if="active_tab == 'outstanding_debs'" outstanding-debts)

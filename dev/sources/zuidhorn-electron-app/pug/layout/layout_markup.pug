@@ -1,0 +1,11 @@
+doctype
+-env_data = env_data || {html5Mode: {enable: false, basePath: "/"}, apiUrl: "/"};
+html(lang="en")
+    include includes/head
+    body
+        include includes/dev-pages
+        include includes/header
+        block content
+        include includes/popups
+        include includes/footer
+        include includes/scripts

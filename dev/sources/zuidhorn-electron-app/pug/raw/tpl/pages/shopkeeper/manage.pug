@@ -108,6 +108,8 @@
                 a(href="https://www.google.com/maps/place/{{office.lat}},{{office.lon}}" target="_blank").office-li-map-link
                     em.mdi.mdi-map-marker
                     | View on map
+    
     div(ng-if="($ctrl.shopkeepers | object_values).length > 0")
         p.text-muted(ng-show="($ctrl.shopkeepers | object_values | filter:$ctrl.active_filters).length == 0") Nothing fund by criteria.
+    
     div(ng-if="($ctrl.shopkeepers | object_values).length == 0"): p.text-muted No Shopkeepers yet.

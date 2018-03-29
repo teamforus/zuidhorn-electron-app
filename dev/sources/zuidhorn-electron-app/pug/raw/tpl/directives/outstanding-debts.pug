@@ -1,0 +1,34 @@
+div
+    .section.section-title Stores
+    
+    .section.section-panel(ng-repeat="shopkeeper in shopkeepers")
+        .business-li-wrapper: .business-li
+            .business-li-logo: img(ng-src="{{ shopkeeper.preview || './assets/img/no-image-square.png' }}")
+            .business-title
+                .business-title-name(ng-bind="shopkeeper.name")
+                .earnings-badge.earnings-badge-danger
+                    .earnings-col
+                        .earnings-col-label Total ammount
+                        .earnings-col-value € {{ (shopkeeper.earnings.debs || 0) | number_format:2 }}
+            .business-details
+                span
+                    strong Kvk: 
+                    | {{ shopkeeper.kvk_number }} 
+                    span &nbsp;|&nbsp; 
+                span
+                    strong BTW: 
+                    span(ng-class="{'text-muted' : !shopkeeper.btw_number}") 
+                        | {{ shopkeeper.btw_number || 'Geen data' }}
+                    span &nbsp;|&nbsp; 
+                span
+                    strong IBAN:  
+                    | {{ shopkeeper.iban }} 
+                br
+                span
+                    strong Categories: 
+                    span(ng-repeat="category in shopkeeper.categories track by $index")
+                        | {{ category.name }}{{ $index < shopkeeper.categories.length - 1 ? ', ' : '' }}
+                br
+                span
+                    strong Email: 
+                    span.text-primary {{ shopkeeper.user.email }} 

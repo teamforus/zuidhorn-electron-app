@@ -1,0 +1,111 @@
+extends ../layout/layout_markup
+block content
+    .section.section-header: .wrapper
+        .section-header-inner
+            a.logo: img(src="./assets/img/logo.png", alt="")
+                
+            .section-header-actions
+                a(ui-sref="sign-out").button.button-primary
+                    em.mdi.mdi-logout
+                    | Logout
+
+    .section.section-container: .wrapper 
+        .section.section-title Import .CSV file
+        .section.section-panel
+            .csv-import
+                .csv-import-icon
+                    .csv-import-icon-progress#progress
+                    img(src="./assets/img/icon-csv.svg").csv-import-icon-icon
+        
+                div
+                    .csv-import-status Select .csv file to upload
+                    .csv-import-progress &nbsp;
+                    div.csv-import-actions.text-center
+                        a(href="#").button.button-success 
+                            em.mdi.mdi-file-outline
+                            | Select .csv file
+
+        .section.section-panel
+            .csv-import
+                .csv-import-icon
+                    .csv-import-icon-progress#progress
+                    img(src="./assets/img/icon-csv.svg").csv-import-icon-icon
+        
+                div
+                    .csv-import-status Select .csv file to upload
+                    .csv-import-progress &nbsp;
+                    div.csv-import-actions.text-center
+                        a(href="#").button.button-primary 
+                            em.mdi.mdi-upload
+                            | Uplaod to server
+
+        .section.section-panel
+            .csv-import
+                .csv-import-icon
+                    .csv-import-icon-progress#progress
+                    img(src="./assets/img/icon-csv.svg").csv-import-icon-icon
+                
+                div
+                    .csv-import-status Uploading...
+                    div.csv-import-progress 
+                    em.button.button-default.disabled 
+                        | Uploading...
+
+        .section.section-panel
+            .csv-import
+                .csv-import-icon
+                    .csv-import-icon-progress#progress
+                    img(src="./assets/img/icon-csv.svg").csv-import-icon-icon
+                
+                div
+                    .csv-import-status Completed
+                    div.csv-import-progress 
+                    .csv-import-actions.text-center
+                        a(href="#").button.button-success 
+                            em.mdi.mdi-download
+                            | Download voucher codes.
+        
+        div
+            .section.section-title Vouchers
+            .section.section-panel
+                div
+                    .table-responsive: table.table.table-stripped
+                        thead: tr
+                            th NR PERS
+                            th KINDEREN
+                            th CODE
+                            th
+                                | ACTIVATED
+                                a(href="#" ng-click="updateActivationList($event)").mdi.mdi-refresh.text-primary
+                        tbody
+                            mixin table_row()
+                                tr
+                                    td: strong.text-primary.mono 223796236
+                                    td 3
+                                    td.mono DCD7-8406
+                                    td No
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                            +table_row()
+                    .pagination
+                        a(href="#").pagination-it.disabled: em.mdi.mdi-chevron-left
+                        a(href="#").pagination-it.active 1
+                        a(href="#").pagination-it 2
+                        a(href="#").pagination-it 3
+                        a(href="#").pagination-it: em.mdi.mdi-chevron-right
+                .pagination: .pull-right
+                    a(href="#" ng-click="importList($event)").button.button-primary
+                        em.mdi.mdi-upload
+                        | Import
+                    a(href="#" ng-click="exportList($event)" ng-show="csv_content.show").button.button-success
+                        em.mdi.mdi-download
+                        | Export
+                    a(href="#" ng-click="deleteLocalData($event)" ng-show="csv_content.show").button.button-danger 
+                        em.mdi.mdi-delete
+                        | Delete

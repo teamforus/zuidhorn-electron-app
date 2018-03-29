@@ -13,7 +13,7 @@
                 "enable": false,
                 "basePath": "/"
             },
-            "apiUrl": "http://mvp.forus.io/municipality/api",
+            "apiUrl": "http://test.api.zuidhorn.forus.io/municipality",
             "credentials_key": "zuidhorn-electron-app-credentials"
         }
     }
