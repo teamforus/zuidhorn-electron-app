@@ -390,6 +390,29 @@ input:not([type="checkbox"]):not([type="radio"]) {
     }
 }
 
+.chart-container {
+    max-width: 100%;
+    width: 500px;
+    text-align: center;
+    margin: auto;
+    padding: 30px;
+
+    canvas {
+        width: 100%;
+        margin: 0 auto 20px;
+    }
+
+    .chart-desc {
+        font: 400 16px $bf;
+        margin: 0 0 20px;
+
+        strong {
+            font: inherit;
+            font-weight: 700;
+        }
+    }
+}
+
 .map-card {
     padding-left: 130px;
     padding-top: 5px;
@@ -491,6 +514,22 @@ table.table {
             padding: 15px 30px;
             border: none;
             position: relative;
+
+            .button-xs {
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0 0 0 10px;
+                padding: 0 5px;
+                text-align: center;
+                height: 30px;
+                font: 700 10px/30px $bf;
+
+                .mdi {
+                    margin: 0;
+                    font-weight: 900;
+                    line-height: 30px;
+                }
+            }
 
             &:after {
                 content: '';

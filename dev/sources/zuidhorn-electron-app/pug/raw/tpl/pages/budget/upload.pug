@@ -1,7 +1,26 @@
 .section.section-container: .wrapper 
     .section.section-title Import .CSV file
     .section.section-panel
-        .csv-import
+        form.form(ng-show="$ctrl.uploadSingle" ng-submit="$ctrl.uploadSingleSubmit($event)")
+            .row: .col.col-12.form-heading Upload single record
+            .row
+                .col.col-4.form-group
+                    label(for="nr_pers").label NR PERS
+                    input(type="text" name="nr_pers" id="nr_pers" ng-model="$ctrl.singleRecord.form.values.nr_pers").form-control
+                    p(ng-repeat="error in $ctrl.singleRecord.form.errors.nr_pers" ng-bind="error").text-danger
+                .col.col-4.form-group
+                    label(for="count_kids").label KINDEREN
+                    input(type="number" name="count_kids" id="count_kids" ng-model="$ctrl.singleRecord.form.values.count_kids").form-control
+                    p(ng-repeat="error in $ctrl.singleRecord.form.errors.count_kids" ng-bind="error").text-danger
+            .row: .col.col-12
+                button(type="submit" hidden)#formSubmit
+                label(ng-click="$ctrl.uploadSingleCancel($event)").button.button-default Cancel
+                label(type="submit" for="formSubmit").button.button-success Upload
+                label(ng-if="$ctrl.singleRecord.uploaded").button.button-text.disabled 
+                    em.mdi.mdi-check
+                    | Uploaded
+
+        .csv-import(ng-show="!$ctrl.uploadSingle")
             .csv-import-icon
                 .csv-import-icon-progress#progress
                 img(src="./assets/img/icon-csv.svg").csv-import-icon-icon
@@ -12,7 +31,12 @@
                 div(ng-show="$ctrl.csvParser.progress == 1").csv-import-actions.text-center
                     a(href="#" ng-click="$ctrl.csvParser.selectFile($event)").button.button-success 
                         em.mdi.mdi-file-outline
-                        | Select .csv file
+                        | Select .csv
+
+                    a(href="#" ng-click="$ctrl.uploadSingleShow($event)").button.button-primary 
+                        em.mdi.mdi-plus
+                        | Add single
+                        
                 div(ng-show="$ctrl.csvParser.progress == 2").csv-import-actions.text-center
                     a(href="#" ng-click="$ctrl.csvParser.uploadToServer($event)").button.button-primary 
                         em.mdi.mdi-upload

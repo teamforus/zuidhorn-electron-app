@@ -8,9 +8,30 @@ block content
                 a(ui-sref="sign-out").button.button-primary
                     em.mdi.mdi-logout
                     | Logout
-
+            
     .section.section-container: .wrapper 
         .section.section-title Import .CSV file
+
+        .section.section-panel
+            .form
+                .row: .col.col-12.form-heading Upload single record
+                .row
+                    .col.col-4.form-group
+                        label(for="nr_pers").label NR PERS
+                        input(type="text" name="nr_pers" id="nr_pers").form-control
+                        p.text-danger This field is required
+                    .col.col-4.form-group
+                        label(for="count_kids").label KINDEREN
+                        input(type="number" name="count_kids" id="count_kids").form-control
+                        p.text-danger This field is required
+                .row: .col.col-12
+                    button(type="submit")#submit.hidden
+                    label.button.button-default Cancel
+                    label(for="submit").button.button-success Upload
+                    label.button.button-text.disabled 
+                        em.mdi.mdi-check
+                        | Uploaded
+
         .section.section-panel
             .csv-import
                 .csv-import-icon
@@ -24,6 +45,10 @@ block content
                         a(href="#").button.button-success 
                             em.mdi.mdi-file-outline
                             | Select .csv file
+
+                        a(href="#" ng-click="ctrl.uploadSingleButton($event)").button.button-primary 
+                            em.mdi.mdi-plus
+                            | Add single
 
         .section.section-panel
             .csv-import
@@ -81,7 +106,10 @@ block content
                             mixin table_row()
                                 tr
                                     td: strong.text-primary.mono 223796236
-                                    td 3
+                                    td 
+                                        | 3
+                                        a(href="#").button.button-primary.button-xs
+                                            em.mdi.mdi-plus
                                     td.mono DCD7-8406
                                     td No
                             +table_row()

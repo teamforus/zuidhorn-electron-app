@@ -10,6 +10,7 @@ municipalityApp.component('panelBudgetUploadComponent', {
         'DataUploadService',
         'CredentialsService',
         'DataStorageService',
+        'FormBuilderService',
         'ProgressFakerService',
         function(
             $q,
@@ -21,12 +22,136 @@ municipalityApp.component('panelBudgetUploadComponent', {
             DataUploadService,
             CredentialsService,
             DataStorageService,
+            FormBuilderService,
             ProgressFakerService
         ) {
             var ctrl = this;
             var circle = false;
             var csvParser = false;
             var input;
+
+            ctrl.uploadSingle = false;
+
+            ctrl.singleRecord = {
+                form: FormBuilderService.build().fillValues({
+                    'nr_pers': '',
+                    'count_kids': 1
+                }, ['nr_pers', 'count_kids']),
+                uploaded: false
+            };
+
+            ctrl.uploadSingleShow = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                ctrl.uploadSingle = true;
+            };
+
+            ctrl.uploadSingleCancel = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                ctrl.singleRecord.form.reset();
+                ctrl.uploadSingle = false;
+            };
+
+            var validateSingle = function(values) {
+                var errors = {};
+                
+                if (
+                    (typeof values.count_kids == 'undefined') || 
+                    (!values.count_kids) || 
+                    (isNaN(parseInt(values.count_kids))) ||
+                    (parseInt(values.count_kids) < 1) 
+                ) {
+                    errors.count_kids = [
+                        "Count kids field is required, should be number and more thant 0."
+                    ];
+                }
+
+                if (
+                    (typeof values.nr_pers != 'string') || 
+                    (!values.nr_pers) || 
+                    (values.nr_pers.length < 5) 
+                ) {
+                    errors.nr_pers = [
+                        "Nr Pers field is required and should have at least 5 character."
+                    ];
+                }
+
+                return errors;
+            };
+
+            ctrl.uploadSingleSubmit = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var validationErrors = validateSingle(ctrl.singleRecord.form.values);
+                
+                if (Object.keys(validationErrors).length > 0) {
+                    return ctrl.singleRecord.form.fillErrors(validationErrors);
+                }
+
+                if (ctrl.singleRecord.form.is_locked) {
+                    return;
+                }
+
+                ctrl.singleRecord.form.lock();
+
+                DataUploadService.submitData([{
+                    id: 1,
+                    count_childs: ctrl.singleRecord.form.values.count_kids
+                }]).then(function(res) {
+                    var rows = [
+                        ["NR PERS", "KINDEREN", "CODE"],
+                        [
+                            ctrl.singleRecord.form.values.nr_pers,
+                            res.data.response[0].count_childs,
+                            res.data.response[0].code
+                        ]
+                    ];
+
+                    console.log(rows);
+
+                    if (!DataStorageService.hasItem('uploaded_budget')) {
+                        var row = [
+
+                        ];
+                        var uploaded_budget = {
+                            rows: rows,
+                            file: {
+                                name: "data.csv",
+                                type: "text/csv",
+                            }
+                        };
+                    } else {
+                        var uploaded_budget = JSON.parse(
+                            DataStorageService
+                            .readItem('uploaded_budget')
+                        );
+
+                        uploaded_budget.rows = rows
+                            .concat(uploaded_budget.rows.slice(1));
+                    }
+
+                    DataStorageService.writeItem(
+                        'uploaded_budget', JSON.stringify(uploaded_budget)
+                    );
+                    
+                    $timeout(function() {
+                        ctrl.singleRecord.uploaded = false;
+                        ctrl.singleRecord.form.unlock();
+                    }, 1000);
+                    
+                    ctrl.singleRecord.form.reset();
+                    ctrl.singleRecord.uploaded = true;
+
+                    $scope.$emit('budget:uploaded', init);
+                }, function(res) {
+                    console.log(res.data);
+                    alert('Something went wrong.');
+                });
+            };
 
             var makeCircle = function() {
                 return new ProgressBar.Circle($('#progress')[0], {

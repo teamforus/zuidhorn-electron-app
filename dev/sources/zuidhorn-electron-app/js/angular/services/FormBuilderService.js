@@ -13,7 +13,7 @@ municipalityApp.service('FormBuilderService', ['$http', function($http) {
                     return this;
                 },
                 fillErrors: function(errors) {
-                    this.errors = errors || [];
+                    this.errors = errors || {};
 
                     return this;
                 },

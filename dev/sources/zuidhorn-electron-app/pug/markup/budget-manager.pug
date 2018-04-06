@@ -57,4 +57,20 @@ block content
                 +tab_item('outstanding_debs', 'outstanding-debs', 'Outstanding<br>Debs')
 
             .section.section-title Stores
-            .section.section-panel.section-panel-devieded: .row
+            .section.section-panel
+                .row
+                    .col.col-4: .chart-container
+                        canvas(id="myChart1" width="400" height="400")
+                        .chart-desc 
+                            | Aantal uitgebrachte stemmen: 
+                            strong 300.548
+                    .col.col-4: .chart-container
+                        canvas(id="myChart2" width="400" height="400")
+                        .chart-desc 
+                            | Aantal uitgebrachte stemmen: 
+                            strong 300.548
+                    .col.col-4: .chart-container
+                        canvas(id="myChart3" width="400" height="400")
+                        .chart-desc 
+                            | Aantal uitgebrachte stemmen: 
+                            strong 300.548

@@ -140,19 +140,15 @@
             }, {
                 "from": "../../node_modules/core-js/client/core.min.js",
                 "to": "assets/dist/core-js"
+            }, {
+                "from": "../../node_modules/chart.js/dist/Chart.min.js",
+                "to": "assets/dist/chart.js"
             }],
             "tasks": {
                 "settings": {
                     "js": [{
                         "src": [
-                            "app.js",
-                            "angular/*.js",
-                            "angular/controllers/**/**.js",
-                            "angular/components/**/**.js",
-                            "angular/directives/**/**.js",
-                            "angular/providers/**/**.js",
-                            "angular/services/**/**.js",
-                            "angular/filters/**/**.js"
+                            "app-markup.js"
                         ],
                         "dest": "/",
                         "name": "app.js"
@@ -223,6 +219,9 @@
             }, {
                 "from": "../../node_modules/core-js/client/core.min.js",
                 "to": "assets/dist/core-js"
+            }, {
+                "from": "../../node_modules/chart.js/dist/Chart.min.js",
+                "to": "assets/dist/chart.js"
             }],
             "tasks": {
                 "settings": {

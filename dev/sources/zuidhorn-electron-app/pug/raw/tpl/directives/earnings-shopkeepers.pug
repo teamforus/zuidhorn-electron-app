@@ -1,5 +1,29 @@
 div
     .section.section-title Stores
+    .section.section-panel
+        .chart-container(ng-show="!showChart")
+            button(ng-click="showChartButton()").button.button-primary 
+                em.mdi.mdi-chart-pie
+                | Show charts
+        .row(ng-show="showChart")
+            .col.col-4
+                .chart-container
+                    canvas(id="myChart_total" width="400" height="400")
+                    .chart-desc 
+                        | Total Earnings: 
+                        strong(ng-bind="'€' + (chartLib.totals.myChart_total | number_format:2)")
+            .col.col-4
+                .chart-container
+                    canvas(id="myChart_last_month" width="400" height="400")
+                    .chart-desc 
+                        | Last Month Earnings: 
+                        strong(ng-bind="'€' + (chartLib.totals.myChart_last_month | number_format:2)")
+            .col.col-4
+                .chart-container
+                    canvas(id="myChart_last_week" width="400" height="400")
+                    .chart-desc 
+                        | Last Week Earnings: 
+                        strong(ng-bind="'€' + (chartLib.totals.myChart_last_week | number_format:2)")
     
     .section.section-panel(ng-repeat="shopkeeper in shopkeepers")
         .business-li-wrapper(ng-click="shopkeeper.show_transactions = !shopkeeper.show_transactions"): .business-li

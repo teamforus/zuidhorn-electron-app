@@ -8,6 +8,7 @@ municipalityApp.directive('uploadedVouchers', [
     'PaginatorService',
     'CredentialsService',
     'DataStorageService',
+    'DataUploadService',
     function(
         $q,
         $state,
@@ -17,7 +18,8 @@ municipalityApp.directive('uploadedVouchers', [
         BudgetService,
         PaginatorService,
         CredentialsService,
-        DataStorageService
+        DataStorageService,
+        DataUploadService
     ) {
         return {
             restrict: 'A',
@@ -67,8 +69,8 @@ municipalityApp.directive('uploadedVouchers', [
                                             type: target_file.type,
                                         }
                                     };
-                                console.log(DataStorageService.hasItem('uploaded_budget'));
-
+                                    
+                                    console.log(DataStorageService.hasItem('uploaded_budget'));
                                     console.log(uploaded_budget);
                                 } else {
                                     var uploaded_budget = JSON.parse(
@@ -158,6 +160,36 @@ municipalityApp.directive('uploadedVouchers', [
                             init();
                         }
                     };
+
+                    $scope.addChildren = function(e, code) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var confirmed = confirm(
+                            "Are you sure? This action cannot be undone.");
+
+                        if (!confirmed) {
+                            return;
+                        }
+
+                        DataUploadService.addChildren(code).then(function(res) {
+                            data.rows = data.rows.map(function(row) {
+                                if (row[2] == code) {
+                                    console.log(row);
+                                    row[1] = (parseInt(row[1]) + 1) + "";
+                                    console.log(row);
+                                }
+
+                                return row;
+                            });
+
+                            DataStorageService.writeItem('uploaded_budget', JSON.stringify(data));
+                            
+                            init();
+                        }, function() {
+                            alert("Something went wrong.");
+                        });
+                    }
 
                     $scope.csv_content.show = true;
 
