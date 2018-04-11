@@ -6,7 +6,7 @@ municipalityApp.filter('pretty_json', function() {
 
 municipalityApp.filter('pretty_date', function() {
     return function(_in, format) {
-        return moment(_in).format(format || 'LLL');
+        return moment(_in).locale('de').format(format || 'D MMMM YYYY, HH:mm').toLowerCase() + ' uur';
     }
 });
 

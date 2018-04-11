@@ -27,10 +27,15 @@ municipalityApp.directive('earningsShopkeepers', [
                     $scope.showChart = !$scope.showChart;
                 }
 
+                $scope.states = {
+                    pending: "In behandeling", 
+                    refunded: "Terugbetaald", 
+                    success: "Voltooid"
+                };
+
                 EarningsService.shopkeepers.list().then(function(res) {
                     $scope.shopkeepers = res.data.map(function(shopKeeper) {
                         shopKeeper.transactions = shopKeeper.transactions.map(function(transaction) {
-                            transaction.status = $filter('uc_first')(transaction.status);
                             transaction.created_at = $filter('pretty_date')(transaction.created_at);
 
                             return transaction;

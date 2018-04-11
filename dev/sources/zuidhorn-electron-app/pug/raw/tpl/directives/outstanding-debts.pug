@@ -1,5 +1,5 @@
 div
-    .section.section-title Stores
+    .section.section-title Winkels
 
     .section.section-panel
         .chart-container(ng-show="!showChart")
@@ -21,8 +21,9 @@ div
                 .business-title-name(ng-bind="shopkeeper.name")
                 .earnings-badge.earnings-badge-danger
                     .earnings-col
-                        .earnings-col-label Total ammount
+                        .earnings-col-label Totaalbedrag
                         .earnings-col-value € {{ (shopkeeper.earnings.debs || 0) | number_format:2 }}
+                        .earnings-col-value % {{ ((shopkeeper.earnings.debs / (chartLib.totals.myChart_debs / 100)) | number_format:2) }}
             .business-details
                 span
                     strong Kvk: 
@@ -38,10 +39,10 @@ div
                     | {{ shopkeeper.iban }} 
                 br
                 span
-                    strong Categories: 
+                    strong Categorieën: 
                     span(ng-repeat="category in shopkeeper.categories track by $index")
                         | {{ category.name }}{{ $index < shopkeeper.categories.length - 1 ? ', ' : '' }}
                 br
                 span
-                    strong Email: 
+                    strong E-mail: 
                     span.text-primary {{ shopkeeper.user.email }} 

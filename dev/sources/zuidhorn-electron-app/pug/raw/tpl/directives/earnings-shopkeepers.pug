@@ -1,5 +1,5 @@
 div
-    .section.section-title Stores
+    .section.section-title Winkels
     .section.section-panel
         .chart-container(ng-show="!showChart")
             button(ng-click="showChartButton()").button.button-primary 
@@ -32,14 +32,17 @@ div
                 .business-title-name(ng-bind="shopkeeper.name")
                 .earnings-badge
                     .earnings-col
-                        .earnings-col-label Total Earnings
+                        .earnings-col-label Totaal inkomsten
                         .earnings-col-value € {{ (shopkeeper.earnings.total || 0) | number_format:2 }}
+                        .earnings-col-value % {{ ((shopkeeper.earnings.total / (chartLib.totals.myChart_total / 100)) | number_format:2) }}
                     .earnings-col
-                        .earnings-col-label Last month earnings
+                        .earnings-col-label Inkomsten vorige maand
                         .earnings-col-value € {{ (shopkeeper.earnings.last_month || 0) | number_format:2 }}
+                        .earnings-col-value % {{ ((shopkeeper.earnings.last_month / (chartLib.totals.myChart_last_month / 100)) | number_format:2) }}
                     .earnings-col
-                        .earnings-col-label Last week earnings
+                        .earnings-col-label Inkomsten vorige week
                         .earnings-col-value € {{ (shopkeeper.earnings.last_week || 0) | number_format:2 }}
+                        .earnings-col-value % {{ ((shopkeeper.earnings.last_week / (chartLib.totals.myChart_last_week / 100)) | number_format:2) }}
             .business-details
                 span
                     strong Kvk: 
@@ -55,24 +58,24 @@ div
                     | {{ shopkeeper.iban }} 
                 br
                 span
-                    strong Categories: 
+                    strong Categorieën: 
                     span(ng-repeat="category in shopkeeper.categories track by $index")
                         | {{ category.name }}{{ $index < shopkeeper.categories.length - 1 ? ', ' : '' }}
                 br
                 span
-                    strong Email: 
+                    strong E-mail: 
                     span.text-primary {{ shopkeeper.user.email }} 
         
         div(ng-show="shopkeeper.show_transactions")
             .table-fill: table.table.table-stripped
                 tr
-                    th Amount
-                    th Date
+                    th Bedrag
+                    th Datum
                     th Status
                 tr(ng-repeat="transaction in shopkeeper.transactions")
                     td € {{ transaction.amount | number_format:2 }}
                     td {{ transaction.created_at }}
-                    td {{ transaction.status }}
+                    td {{ states[transaction.status] || transaction.status }}
             //- .pagination
             //-     a(href="#").pagination-it.disabled: em.mdi.mdi-chevron-left
             //-     a(href="#").pagination-it.active 1

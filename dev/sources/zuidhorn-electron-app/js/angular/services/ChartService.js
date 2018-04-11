@@ -38,13 +38,15 @@ municipalityApp.service('ChartService', [
                 var data = inputData.map(function(option) {
                     return option.value;
                 });
-                
-                var labels = inputData.map(function(option) {
-                    return option.label;
-                });
             
                 var sum = data.reduce(function(total, value) {
                     return total + value;
+                });
+                
+                var labels = inputData.map(function(option) {
+                    return option.label + " (" +  ((
+                        option.value / (sum / 100)
+                    ) || 0).toFixed(2) + "%)";
                 });
             
                 self.inputData[elementId] = inputData;
