@@ -20,8 +20,10 @@ municipalityApp.service('PaginatorService', [
                 self.cur_page = 0;
 
                 var getData = function() {
-                    if (filter)
+                    if (filter) {
                         return $filter('filter')(self.data, filter);
+                    }
+
                     return self.data;
                 };
 
@@ -102,8 +104,9 @@ municipalityApp.service('PaginatorService', [
                     return getData().slice(from, from + self.per_page);
                 };
             };
-            this.make = function(rows, per_page) {
-                return new PaginationContainer(rows, per_page)
+
+            this.make = function(rows, per_page, filter) {
+                return new PaginationContainer(rows, per_page, filter)
             };
         });
     }

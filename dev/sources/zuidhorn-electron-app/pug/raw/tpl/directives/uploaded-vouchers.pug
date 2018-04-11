@@ -2,7 +2,9 @@ div
     .section.section-title Vouchers
     .section.section-panel
         div(ng-show="csv_content.show")
-            | {{ csv_content.data.rows2.inputData((csv_content.data.rows | filter:{"0": 223796236})).flow() }}
+            .form: .form-group: .row: .col.col-12
+                label.label Search
+                input(type="text" placeholder="Search" ng-model="search" ng-change="filterChange($event)").form-control
             .table-responsive: table.table.table-stripped
                 thead: tr
                     th(ng-repeat="header in csv_content.data.headers" ng-bind="header")

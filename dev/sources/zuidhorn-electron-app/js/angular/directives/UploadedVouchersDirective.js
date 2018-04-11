@@ -34,6 +34,7 @@ municipalityApp.directive('uploadedVouchers', [
                         show: false
                     };
 
+                    // Import vouchers from .CSV file (exported earlier)
                     $scope.importList = function(e) {
                         e && (e.preventDefault() & e.stopPropagation());
 
@@ -98,9 +99,19 @@ municipalityApp.directive('uploadedVouchers', [
                         input.click();
                     }
 
-                    if (!DataStorageService.hasItem('uploaded_budget'))
+                    // No vouchers to show
+                    if (!DataStorageService.hasItem('uploaded_budget')) {
                         return;
+                    }
+                    
+                    $scope.search = "";
+                    $scope.filter = {};
+    
+                    $scope.filterChange = function() {
+                        $scope.filter["0"] = $scope.search;
+                    };
 
+                    // Parse vouchers list from storage
                     var data = JSON.parse(DataStorageService.readItem('uploaded_budget'));
                     var rows = JSON.parse(JSON.stringify(data.rows.map(function(item, key) {
                         var out = {};
@@ -112,15 +123,18 @@ municipalityApp.directive('uploadedVouchers', [
                         return out;
                     })));
 
+                    // Get table header and uploaded file name and extension
                     var headers = rows.shift();
                     var file = data.file;
 
+                    // Generate paginator
                     $scope.csv_content.data = {
                         headers: headers,
                         rows: rows,
-                        rows2: PaginatorService.make(rows, 10),
+                        rows2: PaginatorService.make(rows, 10, $scope.filter),
                     }
 
+                    // Fetch voucher states by activation token
                     $scope.updateActivationList = function(e) {
                         e && (e.preventDefault() & e.stopPropagation());
 
@@ -135,6 +149,7 @@ municipalityApp.directive('uploadedVouchers', [
                         }, console.log);
                     }
 
+                    // Export to CSV file
                     $scope.exportList = function(e) {
                         e && (e.preventDefault() & e.stopPropagation());
 
@@ -149,6 +164,7 @@ municipalityApp.directive('uploadedVouchers', [
                         saveAs(blob, file_name);
                     };
 
+                    // Delete local stored vouchers details
                     $scope.deleteLocalData = function(e) {
                         e && (e.preventDefault() & e.stopPropagation());
 
@@ -161,6 +177,7 @@ municipalityApp.directive('uploadedVouchers', [
                         }
                     };
 
+                    // Add children to target voucher by activation code
                     $scope.addChildren = function(e, code) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -191,13 +208,17 @@ municipalityApp.directive('uploadedVouchers', [
                         });
                     }
 
+                    // Everything ready to be shown
                     $scope.csv_content.show = true;
 
+                    // Update activation states
                     $scope.updateActivationList();
                 }
 
+                // Watch for new budget uploading events and reinitialize
                 $scope.$on('budget:uploaded', init);
 
+                // Initalize 
                 init();
             }
         };
