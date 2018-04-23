@@ -69,7 +69,10 @@ municipalityApp.service('ChartService', [
                         labels: labels
                     },
                     options: {
-                        responsive: true
+                        responsive: true,
+                        legend: {
+                            display: false
+                        }
                     }
                 };
            
