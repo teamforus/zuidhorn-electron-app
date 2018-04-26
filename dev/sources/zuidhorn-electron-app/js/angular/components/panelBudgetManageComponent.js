@@ -58,6 +58,7 @@ municipalityApp.component('panelBudgetManageComponent', {
             var fetchfundsAvailable = function() {
                 AuthService.fundsAvailable().then(function(response) {
                     ctrl.fundsInfo.funds = response.data.funds;
+                    ctrl.fundsInfo.bunq_costs = response.data.bunq_costs;
                     ctrl.fundsInfo.funds_required = response.data.funds_required;
                     ctrl.fundsInfo.diff =
                         ctrl.fundsInfo.funds - ctrl.fundsInfo.funds_required;
