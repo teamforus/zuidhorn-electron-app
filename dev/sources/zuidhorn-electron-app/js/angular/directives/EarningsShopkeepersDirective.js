@@ -30,6 +30,7 @@ municipalityApp.directive('earningsShopkeepers', [
                 $scope.states = {
                     pending: "In behandeling", 
                     refunded: "Terugbetaald", 
+                    refund: "Wachten op terugbetaling", 
                     success: "Voltooid"
                 };
 

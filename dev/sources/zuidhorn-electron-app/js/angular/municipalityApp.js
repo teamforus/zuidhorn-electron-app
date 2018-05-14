@@ -57,7 +57,7 @@ municipalityApp.config(['$stateProvider', '$locationProvider', function($statePr
             name: 'sign-in',
             component: 'authSignInComponent',
             data: {
-                title: "Welcome",
+                title: "welkom",
                 layout: 'auth'
             }
         })
