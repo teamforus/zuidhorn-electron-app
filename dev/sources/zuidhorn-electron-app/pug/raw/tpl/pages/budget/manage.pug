@@ -36,7 +36,7 @@
                         | op uw bankrekening te storten.
             .col.col-12(ng-if="$ctrl.fundsInfo.funds")
                 .form: label.label 
-                    | BBunq kosten vanaf de eerste transactie tot nu toe: 
+                    | Bunq kosten vanaf de eerste transactie tot nu toe: 
                     strong €{{ $ctrl.fundsInfo.bunq_costs | abs | number_format:2 }} 
 
     div(financial-overview)
